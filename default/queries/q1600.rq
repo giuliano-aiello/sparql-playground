@@ -1,0 +1,11 @@
+#title:Per ogni specie con peso medio maggiore di 4kg, calcolare il numero di animali e il massimo peso.
+#tags:1 graph patterns,7 variables,GROUP BY,aggregate function COUNT(),HAVING
+
+SELECT ?specie (COUNT(?animale) AS ?animalCount) (AVG(?weight) as ?avgWeight) (MAX(?weight) AS ?maxWeight)
+WHERE {
+  ?specie rdfs:subClassOf tto:Animal .
+  ?animale a ?specie .
+  ?animale tto:weight ?weight .
+}
+GROUP BY ?specie
+HAVING (?avgWeight > 4)

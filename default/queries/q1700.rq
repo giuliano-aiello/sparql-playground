@@ -1,0 +1,17 @@
+#title: Trovare gli animali, con il loro peso, il cui peso è superiore al peso medio di tutti gli animali.
+#tags:2 graph patterns,4 variables,aggregate function AVG(), subClassOf
+
+# rdfs:subClassOf x seleziona esclusivamente le sottoclassi dirette di x, nemmeno x stessa.
+
+SELECT ?animal ?weight
+WHERE{
+  ?animal rdf:type/rdfs:subClassOf tto:Animal;
+		  tto:weight ?weight .
+  FILTER (?weight > ?avgWeight1) {
+	SELECT (AVG(?weight1) AS ?avgWeight1)
+	WHERE{
+	  ?animal1 rdf:type/rdfs:subClassOf tto:Animal;
+			  tto:weight ?weight1 .
+	}
+  }
+}

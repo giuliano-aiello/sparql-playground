@@ -1,0 +1,18 @@
+#title: I nomi di tutte le persone e, se ce l'hanno, il corso di laurea a cui sono iscritti.
+#tags: 4 graph patterns, 4 variables, OPTIONAL, subClassOf*
+
+# rdfs:subClassOf* x seleziona tutte le sottoclassi di x (dirette e indirette), compresa x stessa. Chiusura transitiva.
+# Se in un OPTIONAL menziono ?x che ho già menzionato fuori dall'OPTIONAL, allora mi sto riferendo alla stessa variabile (con tutti i vincoli che gli ho già dato al di fuori dall'OPTIONAL). Variable binding inheritance.
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX uni: <http://esempio.org/universita#>
+
+SELECT ?name ?courseName
+WHERE {
+  ?person rdf:type/rdfs:subClassOf* foaf:Person ;
+		  foaf:name ?name .
+  OPTIONAL {
+	?person uni:iscrittoA ?course .
+	?course foaf:name ?courseName .
+  }
+}

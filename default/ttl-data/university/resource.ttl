@@ -1,0 +1,48 @@
+@prefix uni: <http://esempio.org/universita#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+uni:segretario a foaf:Person ;
+    foaf:name "Gennaro Locascio" .
+
+# Docenti
+uni:prof_rossi a uni:Docente ;
+    foaf:name "Mario Rossi" .
+
+# Studenti
+uni:anna a uni:Studente ;
+    foaf:name "Anna Verdi" .
+
+uni:luca a uni:Studente ;
+    foaf:name "Luca Bianchi" .
+
+# Corsi
+uni:informatica a uni:Corso ;
+    foaf:name "Informatica" ;
+    uni:crediti 6 .
+
+uni:matematica a uni:Corso ;
+    foaf:name "Matematica" ;
+    uni:crediti 9 .
+
+# Esame (istanze di esame con voto)
+
+uni:esame1 a uni:Esame ;
+    uni:voto 28 ;
+    uni:esamePerCorso uni:informatica .
+
+uni:esame2 a uni:Esame ;
+    uni:voto 30 ;
+    uni:esamePerCorso uni:matematica .
+
+uni:esame3 a uni:Esame ;
+    uni:voto 25 ;
+    uni:esamePerCorso uni:informatica .
+
+# Relazioni
+
+uni:prof_rossi uni:insegna uni:informatica, uni:matematica .
+uni:anna uni:iscrittoA uni:matematica .
+uni:luca uni:iscrittoA uni:informatica .
+
+uni:anna uni:haEsame uni:esame1, uni:esame2 .
+uni:luca uni:haEsame uni:esame3 .

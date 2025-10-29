@@ -1,0 +1,31 @@
+#title: Si trovino gli studenti che hanno sostenuto solo esami con votazione maggiore alla media generale di tutti gli esami (sostenuti da tutti gli studenti).
+#tags: 9 graph patterns, FILTER, MINUS
+
+# MINUS richiede almeno una variabile che corrisponde alla query esterna, per poter funzionare. Variable intersection.
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX uni: <http://esempio.org/universita#>
+
+SELECT ?name ?mark
+WHERE {
+  # Students with at least an exam.
+  ?student a uni:Studente ;
+	   foaf:name ?name ;
+	   uni:haEsame ?exam .
+  ?exam uni:voto ?mark .
+  MINUS {
+    # Students with at least an exam mark less equal than the average.
+    ?student uni:haEsame ?exam .
+    ?exam uni:voto ?mark .
+    {
+      # Average
+      SELECT (AVG(?aggregatedMark) AS ?avgMark)
+      WHERE {
+        ?studentAggr a uni:Studente ;
+                       uni:haEsame ?examAggr .
+        ?examAggr uni:voto ?aggregatedMark .
+      }
+    }
+    FILTER (?mark <= ?avgMark)
+  }
+}

@@ -1,0 +1,21 @@
+#title: Si trovino tutti gli studenti che hanno sostenuto almeno un esame con voto superiore alla media generale di tutti gli esami (sostenuti da tutti gli studenti).
+#tags: 6 graph patterns, 5 variables, FILTER
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX uni: <http://esempio.org/universita#>
+
+SELECT ?name ?studentMark
+WHERE {
+  ?student rdf:type uni:Studente ;
+		   foaf:name ?name ;
+		   uni:haEsame ?exam .
+  ?exam uni:voto ?studentMark .
+  FILTER (?studentMark > ?avgMark) {
+	SELECT (AVG(?mark) AS ?avgMark)
+	WHERE {
+	  ?student rdf:type uni:Studente ;
+			   uni:haEsame ?exam .
+	  ?exam uni:voto ?mark .
+	}
+  }
+}

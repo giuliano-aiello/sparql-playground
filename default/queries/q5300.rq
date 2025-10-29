@@ -1,0 +1,23 @@
+#title: Si trovino tutti i corsi insegnati da un docente che insegna almeno due corsi.
+#tags: 5 graph patterns, MINUS, GROUP BY, HAVING
+
+# MINUS richiede almeno una variabile che corrisponde alla query esterna, per poter funzionare. Variable intersection.
+
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX uni: <http://esempio.org/universita#>
+
+SELECT ?name ?course
+WHERE {
+  ?docente uni:insegna ?c ;
+		   foaf:name ?name .
+  ?c foaf:name ?course .
+  MINUS {
+    SELECT ?name
+	WHERE {
+	  ?docente uni:insegna ?course ;
+			   foaf:name ?name .
+	}
+	GROUP BY ?name
+	HAVING (COUNT(?course) < 2)
+  }
+}

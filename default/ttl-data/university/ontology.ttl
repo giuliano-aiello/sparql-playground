@@ -1,0 +1,29 @@
+@prefix uni: <http://esempio.org/universita#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+foaf:Person a rdfs:Class ;
+     rdfs:label "Persona" .
+
+uni:Studente a rdfs:Class ;
+    rdfs:subClassOf foaf:Person ;
+    rdfs:label "Studente" .
+
+uni:Docente a rdfs:Class ;
+    rdfs:subClassOf foaf:Person;
+    rdfs:label "Docente" .
+
+uni:Corso a rdfs:Class ;
+    rdfs:label "Corso" .
+
+uni:Esame a rdfs:Class ;
+    rdfs:label "Esame" .
+
+uni:iscrittoA a rdf:Property ;
+    rdfs:domain uni:Studente ;
+    rdfs:range uni:Corso .
+
+uni:insegna a rdf:Property ;
+    rdfs:domain uni:Docente ;
+    rdfs:range uni:Corso .
